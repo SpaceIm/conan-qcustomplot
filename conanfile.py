@@ -51,7 +51,7 @@ class QcustomplotConan(ConanFile):
                   destination=self._source_subfolder, strip_root=True)
 
     def _patch_sources(self):
-        # allow static qtcustomplot with shared qt, and vice versa
+        # allow static qcustomplot with shared qt, and vice versa
         tools.replace_in_file(os.path.join(self._source_subfolder, "qcustomplot.h"),
                               "#if defined(QT_STATIC_BUILD)",
                               "#if 0" if self.options.shared else "#if 1")
