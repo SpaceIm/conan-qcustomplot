@@ -1,4 +1,5 @@
 from conans import ConanFile, CMake, tools
+from conans.errors import ConanInvalidConfiguration
 import os
 
 required_conan_version = ">=1.33.0"
@@ -45,6 +46,8 @@ class QcustomplotConan(ConanFile):
         if self.settings.compiler.get_safe("cppstd"):
             min_cppstd = "11" if tools.Version(self.deps_cpp_info["qt"].version) < "6.0.0" else "17"
             tools.check_min_cppstd(self, min_cppstd)
+        if not (self.options["qt"].gui and self.options["qt"].widgets):
+            raise ConanInvalidConfiguration("qcustomplot requires qt gui and widgets")
 
     def source(self):
         tools.get(**self.conan_data["sources"][self.version],
