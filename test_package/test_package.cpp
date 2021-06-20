@@ -4,7 +4,7 @@
 #include <QMainWindow>
 
 int main(int argc, char *argv[]) {
-    QApplication a(argc, argv);
+    QApplication app(argc, argv);
     QMainWindow window;
 
     QCustomPlot customPlot;
@@ -22,5 +22,5 @@ int main(int argc, char *argv[]) {
     customPlot.rescaleAxes();
 
     window.setGeometry(100, 100, 500, 400);
-    return a.exit();
+    return 0;
 }
