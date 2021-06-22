@@ -2,6 +2,7 @@
 
 #include <QApplication>
 #include <QMainWindow>
+#include <QVector>
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
