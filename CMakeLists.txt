@@ -4,14 +4,21 @@ project(qcustomplot CXX)
 include(conanbuildinfo.cmake)
 conan_basic_setup(TARGETS)
 
-set(CMAKE_DEBUG_POSTFIX "d")
-
 add_library(${PROJECT_NAME} source_subfolder/qcustomplot.cpp)
+set_target_properties(${PROJECT_NAME}
+    PROPERTIES
+        AUTOMOC ON
+        DEBUG_POSTFIX "d"
+        CXX_VISIBILITY_PRESET hidden
+        VISIBILITY_INLINES_HIDDEN ON
+)
 if(BUILD_SHARED_LIBS)
-    target_compile_definitions(${PROJECT_NAME} PRIVATE QCUSTOMPLOT_COMPILE_LIBRARY)
+    target_compile_definitions(${PROJECT_NAME}
+        PRIVATE QCUSTOMPLOT_COMPILE_LIBRARY
+        INTERFACE QCUSTOMPLOT_USE_LIBRARY
+    )
 endif()
 
-set_target_properties(${PROJECT_NAME} PROPERTIES AUTOMOC ON)
 if(QT_VERSION VERSION_GREATER_EQUAL "6.0.0")
     find_package(Qt6 COMPONENTS Core Gui Widgets PrintSupport REQUIRED CONFIG)
     target_link_libraries(${PROJECT_NAME} PUBLIC Qt6::Core Qt6::Gui Qt6::Widgets Qt6::PrintSupport)
@@ -25,8 +32,9 @@ else()
 endif()
 
 install(TARGETS ${PROJECT_NAME}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+)
 
 install(FILES source_subfolder/qcustomplot.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
